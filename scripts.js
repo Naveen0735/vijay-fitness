@@ -1,7 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
   initHeaderScroll();
   initMobileNav();
-  initStatsCounters();
   initCoachPhotoSwitcher();
   initBeforeAfterSliders();
   initPricingSwitcher();
@@ -49,45 +48,6 @@ function initMobileNav() {
   navLinks.forEach(link => {
     link.addEventListener('click', closePanel);
   });
-}
-
-/* ---------------------------------------------------
-   3. Numerical Increments Stats Counters
---------------------------------------------------- */
-function initStatsCounters() {
-  const stats = document.querySelectorAll('.stat-num');
-  
-  const animateStats = (entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const stat = entry.target;
-        const target = parseFloat(stat.getAttribute('data-target'));
-        const suffix = stat.getAttribute('data-suffix') || '';
-        let current = 0;
-        const duration = 2000; // ms
-        const increment = target / (duration / 16); // ~60fps
-        
-        const updateCount = () => {
-          current += increment;
-          if (current >= target) {
-            stat.textContent = target + suffix;
-          } else {
-            stat.textContent = Math.floor(current) + suffix;
-            requestAnimationFrame(updateCount);
-          }
-        };
-        
-        updateCount();
-        observer.unobserve(stat);
-      }
-    });
-  };
-
-  const observer = new IntersectionObserver(animateStats, {
-    threshold: 0.5
-  });
-
-  stats.forEach(stat => observer.observe(stat));
 }
 
 /* ---------------------------------------------------
